@@ -22,8 +22,11 @@ const create = baseURL => {
 
   const getUsers = (id = '') => api.get(`users/${id}`);
 
+  const getTodos = (userId = '') => api.get(`todos/`, { userId });
+
   return {
     getUsers,
+    getTodos,
   };
 };
 

@@ -15,7 +15,7 @@ const StoreProvider = ({ children }) => {
   const actions = useActions(state, enhancedDispatch);
 
   return (
-    <StoreContext.Provider value={{ state, enhancedDispatch, actions }}>
+    <StoreContext.Provider value={{ state, actions }}>
       {children}
     </StoreContext.Provider>
   );

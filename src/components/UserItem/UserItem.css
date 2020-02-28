@@ -1,0 +1,18 @@
+.UserItem {
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 16px;
+}
+
+.NameText {
+  transition: 0.3s;
+}
+
+.UserItem:hover {
+  background-color: whitesmoke;
+}
+
+.UserItem:hover .NameText {
+  color: #0099ff;
+}

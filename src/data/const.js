@@ -3,5 +3,3 @@ export const DEFAULT_REDUCERS = {
   error: false,
   fetching: false,
 };
-
-export const TYPES_MIDDLEWARE = '_MIDDLEWARE';

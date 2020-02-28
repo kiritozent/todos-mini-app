@@ -3,7 +3,9 @@ import { DEFAULT_REDUCERS } from '../data/const';
 
 const initialState = {
   users: DEFAULT_REDUCERS,
+  todos: DEFAULT_REDUCERS,
   userList: [],
+  todoList: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +30,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         users: { payload: null, fetching: false, error: true },
+      };
+
+    // todos reducers
+    case types.GET_TODO_LIST_REQUEST:
+      return {
+        ...state,
+        todos: { payload: null, fetching: true, error: false },
+      };
+    case types.GET_TODO_LIST_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        todos: { payload, fetching: false, error: false },
+        todoList: payload.data,
+      };
+    }
+    case types.GET_TODO_LIST_FAILURE:
+      return {
+        ...state,
+        todos: { payload: null, fetching: false, error: true },
       };
 
     default:

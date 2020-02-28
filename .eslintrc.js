@@ -1,24 +1,37 @@
 module.exports = {
-  parser: 'babel-eslint', // Specifies the ESLint parser
-  extends: [
-    'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:prettier/recommended',
-  ],
-  parserOptions: {
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
-    ecmaFeatures: {
-      jsx: true, // Allows for the parsing of JSX
-    },
+  extends: ['airbnb', 'prettier'],
+  parser: 'babel-eslint',
+  plugins: ['prettier'],
+  env: {
+    jest: true,
   },
   rules: {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-    "react-hooks/exhaustive-deps": "off"
+    'no-use-before-define': 0,
+    'react/prop-types': 0,
+    'comma-dangle': 0,
+    semi: 0,
+    'react/forbid-prop-types': 0,
+    'prettier/prettier': 'error',
+    'no-undef': 0,
+    'global-require': 0,
+    'prefer-destructuring': 0,
+    'object-curly-spacing': 0,
+    'import/no-useless-path-segments': 0,
+    'import/no-named-as-default-member': 0,
+    'import/no-named-as-default': 0,
+    'import/prefer-default-export': 0,
+    'linebreak-style': 0,
+    'react/destructuring-assignment': 0,
+    'spaced-comment': 0,
+    'import/no-extraneous-dependencies': 0,
+    'no-console': 0,
+    'no-unused-vars': 0,
+    'no-return-assign': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-wrap-multilines': 0,
+    'react/jsx-one-expression-per-line': 0,
   },
-  settings: {
-    react: {
-      version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
-    },
+  globals: {
+    fetch: false,
   },
 };

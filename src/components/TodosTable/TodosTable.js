@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Checkbox } from 'antd';
+import Spinner from '../Spinner/Spinner';
 
 const { Column } = Table;
 
@@ -9,7 +10,10 @@ function TodosTable(props) {
   return (
     <Table
       dataSource={dataSource}
-      loading={loading}
+      loading={{
+        indicator: <Spinner size="large" />,
+        spinning: loading,
+      }}
       onRow={(record, index) => ({ onClick: () => onClick(record) })}
       pagination={false}
       useFixedHeader

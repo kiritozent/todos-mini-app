@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List, ConfigProvider, Button } from 'antd';
+import Spinner from '../Spinner/Spinner';
 
 const UserList = props => {
   const { dataSource, renderItem, getUsers, getUsersRequest } = props;
@@ -24,7 +25,10 @@ const UserList = props => {
     <ConfigProvider renderEmpty={getUsers.error && renderErrorEmpty}>
       <List
         dataSource={dataSource}
-        loading={getUsers.fetching}
+        loading={{
+          indicator: <Spinner size="large" />,
+          spinning: getUsers.fetching,
+        }}
         renderItem={renderItem}
       />
     </ConfigProvider>

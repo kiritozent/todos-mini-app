@@ -1,14 +1,39 @@
-import React from 'react';
-import { List, Typography, Menu, Spin } from 'antd';
+import React, { useState } from 'react';
+import { List, Typography, Spin, Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './UserItem.css';
+import randDarkColor from '../../helper/randDarkColor';
+import Spinner from '../Spinner/Spinner';
 
 function UserItem(props) {
+  const [avatarColor] = useState(randDarkColor());
   const { item, onClick, loading } = props;
+
   return (
     <List.Item className="UserItem" onClick={onClick}>
-      <Typography.Text className="NameText">{item.name}</Typography.Text>
-      {loading && <Spin size="small" />}
+      <div
+        style={{
+          flexDirection: 'row',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar size="large" style={{ backgroundColor: avatarColor }}>
+          <Typography.Text className="UserAvatarText">
+            {item.name[0].toUpperCase()}
+          </Typography.Text>
+        </Avatar>
+        <div
+          style={{ flexDirection: 'column', display: 'flex', marginLeft: 16 }}
+        >
+          <Typography.Text className="UserNameText">
+            {item.name}
+          </Typography.Text>
+          <Typography.Text>{item.email}</Typography.Text>
+        </div>
+      </div>
+      {loading && <Spinner size="medium" />}
     </List.Item>
   );
 }

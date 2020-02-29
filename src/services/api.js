@@ -12,7 +12,7 @@ const create = baseURL => {
       'Cache-Control': 'no-cache',
       'Content-Type': 'Application/json',
     },
-    // 20 second timeout...
+    // 20 seconds timeout...
     timeout: 20000,
   });
 

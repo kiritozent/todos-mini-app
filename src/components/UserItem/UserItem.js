@@ -3,9 +3,10 @@ import { List, Typography, Spin, Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './UserItem.css';
 import randDarkColor from '../../helper/randDarkColor';
+import Spinner from '../Spinner/Spinner';
 
 function UserItem(props) {
-  const [avatarColor, setAvatarColor] = useState(randDarkColor());
+  const [avatarColor] = useState(randDarkColor());
   const { item, onClick, loading } = props;
 
   return (
@@ -32,7 +33,7 @@ function UserItem(props) {
           <Typography.Text>{item.email}</Typography.Text>
         </div>
       </div>
-      {loading && <Spin size="small" />}
+      {loading && <Spinner size="medium" />}
     </List.Item>
   );
 }

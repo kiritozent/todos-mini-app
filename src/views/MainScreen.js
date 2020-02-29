@@ -31,7 +31,13 @@ export default function MainScreen() {
 
   return (
     <Layout className="layout">
-      <Header>Header</Header>
+      <Header>
+        <div className="content">
+          <Typography.Text className="appNameText">
+            Todos Mini App
+          </Typography.Text>
+        </div>
+      </Header>
       <Layout className="layoutContent">
         <Content className="content">
           <TodosTable

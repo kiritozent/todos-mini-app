@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoadingOutline } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 
 function Spinner(props) {
@@ -26,7 +26,7 @@ function Spinner(props) {
   return (
     <Spin
       indicator={
-        <LoadingOutline style={{ fontSize: sizeNumber, color }} spin />
+        <LoadingOutlined style={{ fontSize: sizeNumber, color }} spin />
       }
     />
   );

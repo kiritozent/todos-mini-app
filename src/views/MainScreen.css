@@ -1,0 +1,19 @@
+.content {
+  max-width: 935px;
+  padding: 0px 20px;
+}
+
+.rootLayout {
+  height: 100vh;
+}
+
+.layoutContent {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
+
+.userListContainer {
+  max-height: 368px;
+  overflow: scroll;
+}

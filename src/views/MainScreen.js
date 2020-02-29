@@ -3,8 +3,10 @@ import { Layout, Modal, List, Typography, Spin } from 'antd';
 import { StoreContext } from '../store';
 import UserItem from '../components/UserItem/UserItem';
 import TodosTable from '../components/TodosTable/TodosTable';
+import UserList from '../components/UserList/UserList';
+import './MainScreen.css';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 export default function MainScreen() {
   const { state, actions } = useContext(StoreContext);
@@ -17,7 +19,6 @@ export default function MainScreen() {
 
   useEffect(() => {
     if (state.todos.payload) {
-      console.log('testing');
       setSelectedUserTodos(state.todoList);
     }
   }, [state.todos.payload]);
@@ -29,20 +30,10 @@ export default function MainScreen() {
   }
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout className="layout">
       <Header>Header</Header>
-      <Layout
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          display: 'flex',
-        }}
-      >
-        <Content
-          style={{
-            maxWidth: 935,
-          }}
-        >
+      <Layout className="layoutContent">
+        <Content className="content">
           <TodosTable
             dataSource={state.todoList}
             loading={state.todos.fetching}
@@ -59,10 +50,11 @@ export default function MainScreen() {
         maskStyle={{ backgroundColor: 'rgba(0,0,0, 0.8)' }}
       >
         <Typography.Title>Select User</Typography.Title>
-        <div style={{ overflow: 'scroll', maxHeight: 368 }}>
-          <List
+        <div className="userListContainer">
+          <UserList
             dataSource={state.userList}
-            loading={state.users.fetching}
+            getUsers={state.users}
+            getUsersRequest={() => actions.getUsersRequest()}
             renderItem={(item, index) => (
               <UserItem
                 onClick={() => onSelectUser(index)}

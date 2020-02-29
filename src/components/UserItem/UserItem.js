@@ -3,7 +3,6 @@ import { List, Typography, Spin, Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './UserItem.css';
 import randDarkColor from '../../helper/randDarkColor';
-import Spinner from '../Spinner/Spinner';
 
 function UserItem(props) {
   const [avatarColor, setAvatarColor] = useState(randDarkColor());
@@ -33,7 +32,7 @@ function UserItem(props) {
           <Typography.Text>{item.email}</Typography.Text>
         </div>
       </div>
-      {loading && <Spinner size="small" />}
+      {loading && <Spin size="small" />}
     </List.Item>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Layout, Modal, List, Typography, Spin } from 'antd';
+import { Layout, Modal, Typography } from 'antd';
 import { StoreContext } from '../store';
 import UserItem from '../components/UserItem/UserItem';
 import TodosTable from '../components/TodosTable/TodosTable';
@@ -18,10 +18,10 @@ export default function MainScreen() {
   }, []);
 
   useEffect(() => {
-    if (state.todos.payload) {
+    if (state.getTodos.payload) {
       setSelectedUserTodos(state.todoList);
     }
-  }, [state.todos.payload]);
+  }, [state.getTodos.payload]);
 
   function onSelectUser(index) {
     setSelectedUserIndex(index);
@@ -31,7 +31,10 @@ export default function MainScreen() {
 
   return (
     <Layout className="layout">
-      <Header>
+      <Header
+        className="headerContainer"
+        style={{ padding: 0, paddingLeft: 20, paddingRight: 20 }}
+      >
         <div className="content">
           <Typography.Text className="appNameText">
             Todos Mini App
@@ -42,7 +45,7 @@ export default function MainScreen() {
         <Content className="content">
           <TodosTable
             dataSource={state.todoList}
-            loading={state.todos.fetching}
+            loading={state.getTodos.fetching}
             onClick={item => console.log(item)}
           />
         </Content>
@@ -59,13 +62,13 @@ export default function MainScreen() {
         <div className="userListContainer">
           <UserList
             dataSource={state.userList}
-            getUsers={state.users}
+            getUsers={state.getUsers}
             getUsersRequest={() => actions.getUsersRequest()}
             renderItem={(item, index) => (
               <UserItem
                 onClick={() => onSelectUser(index)}
                 item={item}
-                loading={selectedUserIndex === index && state.todos.fetching}
+                loading={selectedUserIndex === index && state.getTodos.fetching}
               />
             )}
           />

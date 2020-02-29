@@ -1,6 +1,6 @@
 .content {
   max-width: 935px;
-  padding: 0px 20px;
+  flex: 1;
 }
 
 .rootLayout {
@@ -8,9 +8,9 @@
 }
 
 .headerContainer {
+  justify-content: center;
   flex-direction: row;
   display: flex;
-  padding: 0px 20px;
 }
 
 .appNameText {

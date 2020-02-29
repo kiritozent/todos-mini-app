@@ -24,9 +24,18 @@ const create = baseURL => {
 
   const getTodos = (userId = '') => api.get(`todos/`, { userId });
 
+  const postTodos = params => api.post('todos/', { ...params });
+
+  const patchTodos = params => api.patch(`todos/${params.id}/`, { ...params });
+
+  const deleteTodos = (id = '') => api.delete(`todos/${id}`);
+
   return {
     getUsers,
     getTodos,
+    postTodos,
+    patchTodos,
+    deleteTodos,
   };
 };
 

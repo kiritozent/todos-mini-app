@@ -5,14 +5,22 @@
   padding: 16px;
 }
 
-.NameText {
-  transition: 0.3s;
+.UserNameText {
+  font-size: medium;
+  color: #3c4043;
+  font-weight: 500;
+}
+
+.UserAvatarText {
+  font-size: medium;
+  color: #fff;
+  font-weight: 500;
+}
+
+.UserEmailText {
+  font-size: small;
 }
 
 .UserItem:hover {
   background-color: whitesmoke;
-}
-
-.UserItem:hover .NameText {
-  color: #0099ff;
 }

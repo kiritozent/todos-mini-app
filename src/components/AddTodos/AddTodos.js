@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { Input, Form } from 'antd';
 import { FileAddOutlined } from '@ant-design/icons';
 import { StoreContext } from '../../store';
+import './AddTodos.css';
 
 const AddTodos = props => {
   const inputRef = useRef();
@@ -26,15 +27,7 @@ const AddTodos = props => {
 
   return (
     <Form.Item
-      style={{
-        padding: 0,
-        margin: 0,
-        position: 'absolute',
-        right: 16,
-        width: 400,
-        maxWidth: 'calc(100% - 80px)',
-        top: 5.5,
-      }}
+      className="FormItem"
       validateStatus="validating"
       hasFeedback={state.postTodos.fetching}
     >

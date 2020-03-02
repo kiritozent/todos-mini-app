@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Layout, Modal, Typography } from 'antd';
+import { Layout, Modal, Typography, Input } from 'antd';
+import { useMediaQuery } from 'react-responsive';
+import { SearchOutlined } from '@ant-design/icons';
 import { StoreContext } from '../store';
 import UserItem from '../components/UserItem/UserItem';
 import TodosTable from '../components/TodosTable/TodosTable';
@@ -13,6 +15,10 @@ export default function MainScreen() {
   const { state, actions } = useContext(StoreContext);
   const [selectedUserIndex, setSelectedUserIndex] = useState(null);
   const [selectedUser, setSelectedUser] = useState(user);
+  const [filteredTodos, setFilteredTodos] = useState([]);
+  const [searchText, setSearchText] = useState('');
+
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
     actions.getUsersRequest();
@@ -23,9 +29,14 @@ export default function MainScreen() {
 
   useEffect(() => {
     if (state.getTodos.payload) {
-      setSelectedUser(localStorage.getItem('user'));
+      setSelectedUser(JSON.parse(localStorage.getItem('user')));
+      setFilteredTodos(state.todoList);
     }
   }, [state.getTodos.payload]);
+
+  useEffect(() => {
+    onFilteredTodos();
+  }, [searchText]);
 
   function onSelectUser(index) {
     setSelectedUserIndex(index);
@@ -33,27 +44,49 @@ export default function MainScreen() {
     actions.getTodosRequest({ userId: state.userList[index].id });
   }
 
+  function onFilteredTodos() {
+    const temp = state.todoList.filter(item =>
+      item.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
+
+    setFilteredTodos(temp);
+  }
+
   return (
     <Layout className="layout">
       <Header
         className="headerContainer"
-        style={{ padding: 0, paddingLeft: 20, paddingRight: 20 }}
+        style={{
+          padding: 0,
+          paddingLeft: 16,
+          paddingRight: 16,
+        }}
       >
-        <div className="content">
-          <Typography.Text className="appNameText">
-            Todos Mini App
-          </Typography.Text>
+        <div className="content flexRow">
+          {!isMobile && (
+            <Typography.Text className="appNameText" style={{ flex: 2 }}>
+              Hello, {selectedUser.name}
+            </Typography.Text>
+          )}
+          <Input
+            value={searchText}
+            placeholder="Search Todos..."
+            onChange={e => setSearchText(e.target.value)}
+            prefix={<SearchOutlined />}
+            style={{ flex: 1, right: !isMobile && 16 }}
+            allowClear
+            disabled={state.getTodos.fetching}
+          />
         </div>
       </Header>
       <Layout className="layoutContent">
         <Content className="content">
           <TodosTable
-            dataSource={state.todoList}
+            dataSource={filteredTodos}
             loading={state.getTodos.fetching}
           />
         </Content>
       </Layout>
-      {/* <Footer>Footer</Footer> */}
       <Modal
         centered
         visible={!selectedUser}

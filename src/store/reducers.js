@@ -51,6 +51,7 @@ const reducer = (state = initialState, action) => {
       if (payload.data.length > 0) {
         userId = payload.data[0].userId;
       }
+      const result = _.reverse(_.sortBy(payload.data, 'id', ['desc']));
 
       if (typeof userId === 'number') {
         const user = state.userList.find(item => item.id === userId);
@@ -63,7 +64,7 @@ const reducer = (state = initialState, action) => {
       return state.merge({
         ...state,
         getTodos: { payload, fetching: false, error: false },
-        todoList: payload.data,
+        todoList: result,
       });
     }
     case types.GET_TODO_LIST_FAILURE:
@@ -81,8 +82,16 @@ const reducer = (state = initialState, action) => {
     case types.POST_TODO_LIST_SUCCESS: {
       const { payload } = action;
       const temp = [...state.todoList];
-      temp.push(payload.data);
-      const result = _.sortBy(temp, 'id');
+
+      const existedIndex = temp.findIndex(item => item.id === payload.data.id);
+
+      if (existedIndex >= 0) {
+        temp[existedIndex] = payload.data;
+      } else {
+        temp.unshift(payload.data);
+      }
+
+      const result = _.reverse(_.sortBy(temp, 'id'));
 
       return state.merge({
         ...state,
@@ -96,7 +105,7 @@ const reducer = (state = initialState, action) => {
         postTodos: { payload: null, fetching: false, error: true },
       });
 
-    // postTodos reducers
+    // patchTodos reducers
     case types.PATCH_TODO_LIST_REQUEST:
       return state.merge({
         ...state,
@@ -127,7 +136,7 @@ const reducer = (state = initialState, action) => {
         patchTodos: { payload: null, fetching: false, error: true },
       });
 
-    // postTodos reducers
+    // deleteTodos reducers
     case types.DELETE_TODO_LIST_REQUEST:
       return state.merge({
         ...state,

@@ -3,6 +3,12 @@
   flex: 1;
 }
 
+.flexRow {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+}
+
 .rootLayout {
   height: 100vh;
 }

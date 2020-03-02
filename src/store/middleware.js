@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import types from './actionTypes';
 import api from '../services/api';
 
@@ -33,11 +34,14 @@ export const applyMiddleware = dispatch => async action => {
             type: types.POST_TODO_LIST_SUCCESS,
             payload: response,
           });
+          message.success('successfully add new todos!');
         } else {
           dispatch({ type: types.POST_TODO_LIST_FAILURE });
+          message.error('failed add new todos!');
         }
       } catch (err) {
         dispatch({ type: types.POST_TODO_LIST_FAILURE });
+        message.error('failed add new todos!');
       }
       break;
     }
@@ -50,11 +54,14 @@ export const applyMiddleware = dispatch => async action => {
             type: types.PATCH_TODO_LIST_SUCCESS,
             payload: response,
           });
+          message.success('successfully update todos!');
         } else {
           dispatch({ type: types.PATCH_TODO_LIST_FAILURE });
+          message.error('failed update todos!');
         }
       } catch (err) {
         dispatch({ type: types.PATCH_TODO_LIST_FAILURE });
+        message.error('failed update todos!');
       }
       break;
     }
@@ -67,11 +74,14 @@ export const applyMiddleware = dispatch => async action => {
             type: types.DELETE_TODO_LIST_SUCCESS,
             payload,
           });
+          message.success('successfully delete todos!');
         } else {
           dispatch({ type: types.DELETE_TODO_LIST_FAILURE });
+          message.error('failed delete todos!');
         }
       } catch (err) {
         dispatch({ type: types.DELETE_TODO_LIST_FAILURE });
+        message.error('failed delete todos!');
       }
       break;
     }

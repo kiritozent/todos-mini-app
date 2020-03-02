@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Checkbox } from 'antd';
 import Spinner from '../Spinner/Spinner';
+import TodosItem from '../TodosItem/TodosItem';
+import { StoreContext } from '../../store';
+import AddTodos from '../AddTodos/AddTodos';
+import './TodosTable.css';
 
 const { Column } = Table;
 
 function TodosTable(props) {
-  const { dataSource, loading, onClick } = props;
+  const { actions } = useContext(StoreContext);
+
+  const { dataSource, loading } = props;
+
+  const onChangeCompleted = item => {
+    const data = { ...item, completed: !item.completed };
+
+    actions.patchTodosRequest(data);
+  };
+
   return (
     <Table
       dataSource={dataSource}
@@ -14,13 +27,9 @@ function TodosTable(props) {
         indicator: <Spinner size="large" />,
         spinning: loading,
       }}
-      onRow={(record, index) => ({ onClick: () => onClick(record) })}
       pagination={false}
       useFixedHeader
       rowKey={row => row.id.toString()}
-      style={{
-        height: '100%',
-      }}
       bodyStyle={{
         overflowY: 'scroll',
         backgroundColor: 'white',
@@ -31,11 +40,44 @@ function TodosTable(props) {
       <Column
         dataIndex="completed"
         key="completed"
-        render={(text, record) => <Checkbox checked={record.completed} />}
-        width={32}
-        title={<Checkbox checked={false} />}
+        filters={[
+          {
+            text: 'Completed',
+            value: true,
+          },
+          {
+            text: 'Incompleted',
+            value: false,
+          },
+        ]}
+        width={38}
+        onFilter={(value, record) => record.completed === value}
+        render={(text, record) => (
+          <Checkbox
+            checked={record.completed}
+            onClick={() => onChangeCompleted(record)}
+          />
+        )}
+        title=""
+        align="center"
       />
-      <Column title="Todos" dataIndex="title" key="title" />
+      <Column
+        title="Todos"
+        filterIcon={<AddTodos />}
+        filters={[
+          // fake data for displaying ADD NEW TODOS input
+          {
+            text: 'Completed',
+            value: true,
+          },
+        ]}
+        filter
+        dataIndex="title"
+        key="title"
+        render={(text, record, index) => (
+          <TodosItem item={record} index={index} />
+        )}
+      />
     </Table>
   );
 }
@@ -43,7 +85,6 @@ function TodosTable(props) {
 TodosTable.propTypes = {
   dataSource: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default TodosTable;

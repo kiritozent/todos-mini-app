@@ -1,0 +1,28 @@
+.TodosItemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.TodosItem {
+  cursor: pointer;
+  padding: 5.5px 11px;
+  margin: 4px 0px;
+  border-radius: 4px;
+  margin-right: 16px;
+  flex: 1;
+}
+
+.DeleteIcon {
+  color: tomato;
+  font-size: 16px;
+}
+
+.TodosItem:hover {
+  border-width: 1px;
+  padding: 4.5px 10px;
+  border-style: solid;
+  border-color: lightgray;
+}

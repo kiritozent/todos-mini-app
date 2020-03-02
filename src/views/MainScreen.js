@@ -9,17 +9,21 @@ import './MainScreen.css';
 const { Header, Content } = Layout;
 
 export default function MainScreen() {
+  const user = JSON.parse(localStorage.getItem('user'));
   const { state, actions } = useContext(StoreContext);
   const [selectedUserIndex, setSelectedUserIndex] = useState(null);
-  const [selectedUserTodos, setSelectedUserTodos] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(user);
 
   useEffect(() => {
     actions.getUsersRequest();
+    if (selectedUser) {
+      actions.getTodosRequest({ userId: selectedUser.id });
+    }
   }, []);
 
   useEffect(() => {
     if (state.getTodos.payload) {
-      setSelectedUserTodos(state.todoList);
+      setSelectedUser(localStorage.getItem('user'));
     }
   }, [state.getTodos.payload]);
 
@@ -46,14 +50,13 @@ export default function MainScreen() {
           <TodosTable
             dataSource={state.todoList}
             loading={state.getTodos.fetching}
-            onClick={item => console.log(item)}
           />
         </Content>
       </Layout>
       {/* <Footer>Footer</Footer> */}
       <Modal
         centered
-        visible={!Array.isArray(selectedUserTodos)}
+        visible={!selectedUser}
         footer={null}
         closable={false}
         maskStyle={{ backgroundColor: 'rgba(0,0,0, 0.8)' }}

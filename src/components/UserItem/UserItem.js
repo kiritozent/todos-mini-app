@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { List, Typography, Spin, Avatar } from 'antd';
+import { List, Typography, Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import './UserItem.css';
 import randDarkColor from '../../helper/randDarkColor';

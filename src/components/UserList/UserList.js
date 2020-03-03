@@ -4,7 +4,7 @@ import { List, ConfigProvider, Button } from 'antd';
 import Spinner from '../Spinner/Spinner';
 
 const UserList = props => {
-  const { dataSource, renderItem, getUsers, getUsersRequest } = props;
+  const { dataSource, renderItem, getUsers, getTodos, getUsersRequest } = props;
 
   function renderErrorEmpty() {
     return (
@@ -27,7 +27,7 @@ const UserList = props => {
         dataSource={dataSource}
         loading={{
           indicator: <Spinner size="large" />,
-          spinning: getUsers.fetching,
+          spinning: getUsers.fetching || getTodos.fetching,
         }}
         renderItem={renderItem}
       />

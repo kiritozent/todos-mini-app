@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Layout, Modal, Typography, Input } from 'antd';
 import { useMediaQuery } from 'react-responsive';
-import { SearchOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { StoreContext } from '../store';
 import UserItem from '../components/UserItem/UserItem';
 import TodosTable from '../components/TodosTable/TodosTable';
@@ -52,31 +56,46 @@ export default function MainScreen() {
     setFilteredTodos(temp);
   }
 
+  function onChangeUser() {
+    localStorage.clear('user');
+    setFilteredTodos([]);
+    setSelectedUser(null);
+  }
+
   return (
     <Layout className="layout">
-      <Header
-        className="headerContainer"
-        style={{
-          padding: 0,
-          paddingLeft: 16,
-          paddingRight: 16,
-        }}
-      >
+      <Header className="headerContainer">
         <div className="content flexRow">
           {!isMobile && (
-            <Typography.Text className="appNameText" style={{ flex: 2 }}>
-              Hello, {selectedUser.name}
+            <Typography.Text className="headerLeft">
+              {`Todos Mini App ${
+                selectedUser ? ` | ${selectedUser.name}` : ''
+              }`}
             </Typography.Text>
           )}
-          <Input
-            value={searchText}
-            placeholder="Search Todos..."
-            onChange={e => setSearchText(e.target.value)}
-            prefix={<SearchOutlined />}
-            style={{ flex: 1, right: !isMobile && 16 }}
-            allowClear
-            disabled={state.getTodos.fetching}
-          />
+          <div
+            style={{
+              right: !isMobile && 16,
+            }}
+            className="headerRight"
+          >
+            <Input
+              value={searchText}
+              placeholder="Search Todos..."
+              onChange={e => setSearchText(e.target.value)}
+              prefix={<SearchOutlined />}
+              allowClear
+              disabled={state.getTodos.fetching}
+            />
+            <UserOutlined
+              className="userIcon"
+              style={{
+                marginLeft: 16,
+                marginRight: !isMobile && 16,
+              }}
+              onClick={onChangeUser}
+            />
+          </div>
         </div>
       </Header>
       <Layout className="layoutContent">
@@ -99,13 +118,10 @@ export default function MainScreen() {
           <UserList
             dataSource={state.userList}
             getUsers={state.getUsers}
+            getTodos={state.getTodos}
             getUsersRequest={() => actions.getUsersRequest()}
             renderItem={(item, index) => (
-              <UserItem
-                onClick={() => onSelectUser(index)}
-                item={item}
-                loading={selectedUserIndex === index && state.getTodos.fetching}
-              />
+              <UserItem onClick={() => onSelectUser(index)} item={item} />
             )}
           />
         </div>

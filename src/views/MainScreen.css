@@ -14,15 +14,11 @@
 }
 
 .headerContainer {
+  padding-left: 16px;
+  padding-right: 16px;
   justify-content: center;
   flex-direction: row;
   display: flex;
-}
-
-.appNameText {
-  color: #fff;
-  font-size: large;
-  font-weight: 600;
 }
 
 .layoutContent {
@@ -33,5 +29,25 @@
 
 .userListContainer {
   max-height: 368px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.userIcon {
+  font-size: 20px;
+  color: white;
+}
+
+.headerRight {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.headerLeft {
+  flex: 2;
+  color: #fff;
+  font-size: large;
+  font-weight: 600;
 }

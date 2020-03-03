@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserItem render without crashing passed 1`] = `
+<Item
+  className="UserItemContainer"
+  onClick={[Function]}
+>
+  <div
+    className="UserItem"
+  >
+    <Avatar
+      shape="circle"
+      size="large"
+      style={
+        Object {
+          "backgroundColor": "#808080",
+        }
+      }
+    >
+      <Text
+        className="UserAvatarText"
+      />
+    </Avatar>
+    <div
+      className="UserItemBody"
+    >
+      <Text
+        className="UserNameText"
+      />
+      <Text />
+    </div>
+  </div>
+</Item>
+`;

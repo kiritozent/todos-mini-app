@@ -1,0 +1,54 @@
+.content {
+  max-width: 935px;
+  flex: 1;
+}
+
+.flexRow {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+}
+
+.rootLayout {
+  height: 100vh;
+}
+
+.headerContainer {
+  padding-left: 16px;
+  padding-right: 16px;
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+}
+
+.layoutContent {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
+
+.userListContainer {
+  max-height: 368px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.userIcon {
+  font-size: 20px;
+  margin-left: 16px;
+  color: white;
+}
+
+.headerRight {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.headerLeft {
+  flex: 2;
+  color: #fff;
+  font-size: large;
+  font-weight: 600;
+}

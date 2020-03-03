@@ -1,0 +1,9 @@
+.FormItem {
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  right: 16px;
+  width: 400px;
+  max-width: calc(100% - 80px);
+  top: 5.5px;
+}

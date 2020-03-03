@@ -1,0 +1,39 @@
+.UserItem {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UserItemContainer {
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 16px;
+}
+
+.UserItemBody {
+  flex-direction: column;
+  display: flex;
+  margin-left: 16px;
+}
+
+.UserNameText {
+  font-size: medium;
+  color: #3c4043;
+  font-weight: 500;
+}
+
+.UserAvatarText {
+  font-size: medium;
+  color: #fff;
+  font-weight: 500;
+}
+
+.UserEmailText {
+  font-size: small;
+}
+
+.UserItem:hover {
+  background-color: whitesmoke;
+}

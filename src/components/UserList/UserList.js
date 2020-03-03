@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { List, ConfigProvider, Button } from 'antd';
 import Spinner from '../Spinner/Spinner';
 import './UserList.css';
+import { DEFAULT_REDUCERS } from '../../data/const';
 
 const UserList = props => {
   const { dataSource, renderItem, getUsers, getTodos, getUsersRequest } = props;
@@ -37,10 +38,19 @@ const UserList = props => {
 };
 
 UserList.propTypes = {
-  dataSource: PropTypes.array.isRequired,
-  renderItem: PropTypes.func.isRequired,
-  getUsers: PropTypes.object.isRequired,
-  getUsersRequest: PropTypes.func.isRequired,
+  dataSource: PropTypes.array,
+  renderItem: PropTypes.func,
+  getUsers: PropTypes.object,
+  getUsersRequest: PropTypes.func,
+  getTodos: PropTypes.object,
+};
+
+UserList.defaultProps = {
+  dataSource: [],
+  renderItem: () => {},
+  getUsers: DEFAULT_REDUCERS,
+  getUsersRequest: () => {},
+  getTodos: DEFAULT_REDUCERS,
 };
 
 export default UserList;

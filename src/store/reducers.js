@@ -1,18 +1,9 @@
 import _ from 'lodash';
 import Immutable from 'seamless-immutable';
 import types from './actionTypes';
-import { DEFAULT_REDUCERS } from '../data/const';
+import { DEFAULT_REDUCER_STATE } from '../data/const';
 
-const initialState = Immutable({
-  getUsers: DEFAULT_REDUCERS,
-  getTodos: DEFAULT_REDUCERS,
-  postTodos: DEFAULT_REDUCERS,
-  patchTodos: DEFAULT_REDUCERS,
-  deleteTodos: DEFAULT_REDUCERS,
-  userList: [],
-  todoList: [],
-  selectedUser: {},
-});
+const initialState = Immutable({ ...DEFAULT_REDUCER_STATE });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -41,26 +32,21 @@ const reducer = (state = initialState, action) => {
     case types.GET_TODO_LIST_REQUEST:
       return state.merge({
         ...state,
-        getTodos: { payload: null, fetching: true, error: false },
+        getTodos: { payload: action.payload, fetching: true, error: false },
       });
     case types.GET_TODO_LIST_SUCCESS: {
       const { payload } = action;
-
       let userId;
-
       if (payload.data.length > 0) {
         userId = payload.data[0].userId;
       }
-      const result = _.reverse(_.sortBy(payload.data, 'id', ['desc']));
-
+      const result = _.reverse(_.sortBy(payload.data, 'id'));
       if (typeof userId === 'number') {
         const user = state.userList.find(item => item.id === userId);
-
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
         }
       }
-
       return state.merge({
         ...state,
         getTodos: { payload, fetching: false, error: false },
@@ -77,22 +63,18 @@ const reducer = (state = initialState, action) => {
     case types.POST_TODO_LIST_REQUEST:
       return state.merge({
         ...state,
-        postTodos: { payload: null, fetching: true, error: false },
+        postTodos: { payload: action.payload, fetching: true, error: false },
       });
     case types.POST_TODO_LIST_SUCCESS: {
       const { payload } = action;
       const temp = [...state.todoList];
-
       const existedIndex = temp.findIndex(item => item.id === payload.data.id);
-
       if (existedIndex >= 0) {
         temp[existedIndex] = payload.data;
       } else {
         temp.unshift(payload.data);
       }
-
       const result = _.reverse(_.sortBy(temp, 'id'));
-
       return state.merge({
         ...state,
         postTodos: { payload, fetching: false, error: false },
@@ -109,21 +91,17 @@ const reducer = (state = initialState, action) => {
     case types.PATCH_TODO_LIST_REQUEST:
       return state.merge({
         ...state,
-        patchTodos: { payload: null, fetching: true, error: false },
+        patchTodos: { payload: action.payload, fetching: true, error: false },
       });
     case types.PATCH_TODO_LIST_SUCCESS: {
       const { payload } = action;
-
       const result = [...state.todoList];
-
       const patchedIndex = result.findIndex(
         item => item.id === payload.data.id,
       );
-
       if (patchedIndex >= 0) {
         result[patchedIndex] = payload.data;
       }
-
       return state.merge({
         ...state,
         patchTodos: { payload, fetching: false, error: false },
@@ -140,15 +118,12 @@ const reducer = (state = initialState, action) => {
     case types.DELETE_TODO_LIST_REQUEST:
       return state.merge({
         ...state,
-        deleteTodos: { payload: null, fetching: true, error: false },
+        deleteTodos: { payload: action.payload, fetching: true, error: false },
       });
     case types.DELETE_TODO_LIST_SUCCESS: {
       const { payload } = action;
-
       const result = [...state.todoList];
-
       const deletedIndex = result.findIndex(item => item.id === payload.id);
-
       if (deletedIndex >= 0) {
         result.splice(deletedIndex, 1);
       }

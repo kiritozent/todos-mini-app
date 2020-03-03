@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner render without crashing passed 1`] = `
+<Spin
+  indicator={
+    <ForwardRef(LoadingOutlined)
+      spin={true}
+      style={
+        Object {
+          "color": "#1890ff",
+          "fontSize": 24,
+        }
+      }
+    />
+  }
+  size="default"
+  spinning={true}
+  wrapperClassName=""
+/>
+`;

@@ -1,38 +1,39 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Input, Form } from 'antd';
+import PropTypes from 'prop-types';
 import { FileAddOutlined } from '@ant-design/icons';
-import { StoreContext } from '../../store';
 import './AddTodos.css';
+import { DEFAULT_REDUCERS } from '../../data/const';
 
 const AddTodos = props => {
-  const inputRef = useRef();
-  const { state, actions } = useContext(StoreContext);
+  const { postTodos, postTodosRequest } = props;
+  const addTodosInputRef = useRef();
   const [todosText, setTodosText] = useState();
 
   useEffect(() => {
-    if (state.postTodos.payload) {
+    if (postTodos.payload) {
       setTodosText('');
     }
-  }, [state.postTodos.payload]);
+  }, [postTodos.payload]);
 
-  const onAddTodos = () => {
+  function onAddTodos() {
     const user = JSON.parse(localStorage.getItem('user'));
     const data = {
       title: todosText,
       completed: false,
       userId: user.id,
     };
-    actions.postTodosRequest(data);
-  };
+    postTodosRequest(data);
+  }
 
   return (
     <Form.Item
       className="FormItem"
       validateStatus="validating"
-      hasFeedback={state.postTodos.fetching}
+      hasFeedback={postTodos.fetching}
     >
       <Input
-        ref={inputRef}
+        ref={addTodosInputRef}
         value={todosText}
         placeholder="Add new todos"
         onChange={e => setTodosText(e.target.value)}
@@ -41,11 +42,21 @@ const AddTodos = props => {
             onAddTodos();
           }
         }}
-        disabled={state.postTodos.fetching}
+        disabled={postTodos.fetching}
         prefix={<FileAddOutlined />}
       />
     </Form.Item>
   );
+};
+
+AddTodos.propTypes = {
+  postTodos: PropTypes.object,
+  postTodosRequest: PropTypes.func,
+};
+
+AddTodos.defaultProps = {
+  postTodos: DEFAULT_REDUCERS,
+  postTodosRequest: () => {},
 };
 
 export default AddTodos;

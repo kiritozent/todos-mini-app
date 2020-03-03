@@ -8,11 +8,16 @@ import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import './TodosItem.css';
 import { StoreContext } from '../../store';
 import Spinner from '../Spinner/Spinner';
+import { DEFAULT_REDUCERS } from '../../data/const';
 
 const TodosItem = props => {
-  const { state, actions } = useContext(StoreContext);
-
-  const { item } = props;
+  const {
+    item,
+    patchTodos,
+    deleteTodos,
+    patchTodosRequest,
+    deleteTodosRequest,
+  } = props;
   const inputRef = useRef();
   const [title, setTitle] = useState();
   const [onEdit, setOnEdit] = useState(false);
@@ -21,7 +26,7 @@ const TodosItem = props => {
   useEffect(() => {
     if (onEdit) {
       inputRef.current.focus();
-    } else {
+    } else if (item) {
       setTitle(item.title);
     }
   }, [onEdit]);
@@ -34,21 +39,21 @@ const TodosItem = props => {
   }, [item]);
 
   useEffect(() => {
-    if (!state.deleteTodos.fetching) {
+    if (!deleteTodos.fetching) {
       setDeleteLoading(false);
     }
-  }, [state.deleteTodos.fetching]);
+  }, [deleteTodos.fetching]);
 
-  const onPatchTodos = () => {
+  function onPatchTodos() {
     const data = {
       ...item,
       title,
     };
 
-    actions.patchTodosRequest(data);
-  };
+    patchTodosRequest(data);
+  }
 
-  const onDeleteTodos = () => {
+  function onDeleteTodos() {
     Modal.confirm({
       title: 'Are you sure delete this todo?',
       icon: <ExclamationCircleOutlined />,
@@ -59,7 +64,7 @@ const TodosItem = props => {
         loading: deleteLoading,
         onClick: () => {
           setDeleteLoading(true);
-          actions.deleteTodosRequest(item);
+          deleteTodosRequest(item);
           Modal.destroyAll();
         },
       },
@@ -67,14 +72,14 @@ const TodosItem = props => {
         console.log('Cancel');
       },
     });
-  };
+  }
 
   if (onEdit)
     return (
       <Form.Item
-        className="FormItem"
+        className="TodosFormItem"
         validateStatus="validating"
-        hasFeedback={state.patchTodos.fetching}
+        hasFeedback={patchTodos.fetching}
       >
         <Input
           ref={inputRef}
@@ -86,7 +91,6 @@ const TodosItem = props => {
               onPatchTodos();
             }
           }}
-          disabled={state.patchTodos.fetching}
         />
       </Form.Item>
     );
@@ -95,11 +99,11 @@ const TodosItem = props => {
       <div
         className="TodosItem"
         onClick={() => {
-          if (!state.patchTodos.fetching) {
-            setOnEdit(true);
-          }
+          setOnEdit(true);
         }}
-        style={{ textDecoration: item.completed ? 'line-through' : 'none' }}
+        style={{
+          textDecoration: item && item.completed ? 'line-through' : 'none',
+        }}
       >
         {title}
       </div>
@@ -109,11 +113,7 @@ const TodosItem = props => {
         <DeleteOutlined
           className="DeleteIcon"
           role="button"
-          onClick={() => {
-            if (!state.deleteTodos.fetching) {
-              onDeleteTodos();
-            }
-          }}
+          onClick={onDeleteTodos}
         />
       )}
     </div>
@@ -121,7 +121,19 @@ const TodosItem = props => {
 };
 
 TodosItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
+  patchTodos: PropTypes.object,
+  deleteTodos: PropTypes.object,
+  patchTodosRequest: PropTypes.func,
+  deleteTodosRequest: PropTypes.func,
+};
+
+TodosItem.defaultProps = {
+  item: null,
+  patchTodos: DEFAULT_REDUCERS,
+  deleteTodos: DEFAULT_REDUCERS,
+  patchTodosRequest: () => {},
+  deleteTodosRequest: () => {},
 };
 
 export default TodosItem;

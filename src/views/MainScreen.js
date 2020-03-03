@@ -1,28 +1,78 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Layout, Modal, Typography, Input } from 'antd';
+import { Layout, Checkbox, Table } from 'antd';
 import { useMediaQuery } from 'react-responsive';
-import {
-  SearchOutlined,
-  LogoutOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { StoreContext } from '../store';
-import UserItem from '../components/UserItem/UserItem';
-import TodosTable from '../components/TodosTable/TodosTable';
-import UserList from '../components/UserList/UserList';
 import './MainScreen.css';
+import HeaderLeft from '../components/HeaderLeft/HeaderLeft';
+import HeaderRight from '../components/HeaderRight/HeaderRight';
+import UserListModal from '../components/UserListModal/UserListModal';
+import AddTodos from '../components/AddTodos/AddTodos';
+import TodosItem from '../components/TodosItem/TodosItem';
+import Spinner from '../components/Spinner/Spinner';
 
 const { Header, Content } = Layout;
 
 export default function MainScreen() {
   const user = JSON.parse(localStorage.getItem('user'));
+
   const { state, actions } = useContext(StoreContext);
   const [selectedUserIndex, setSelectedUserIndex] = useState(null);
   const [selectedUser, setSelectedUser] = useState(user);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [selectedTodoIndex, setSelectedTodoIndex] = useState(null);
 
   const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  const columns = [
+    {
+      key: 'todosCompleted',
+      width: 38,
+      align: 'center',
+      filters: [
+        { text: 'Completed', value: true },
+        { text: 'Incompleted', value: false },
+      ],
+      onFilter: (value, record) => record && record.completed === value,
+      render: (_, record, index) =>
+        selectedTodoIndex !== index ? (
+          <Checkbox
+            checked={record && record.completed}
+            onClick={() => onChangeCompleted(record, index)}
+          />
+        ) : (
+          <Spinner size="small" />
+        ),
+    },
+    {
+      key: 'todosTitle',
+      title: 'Todos',
+      filters: [{ text: 'TodosTitle', value: 'testing' }],
+      onFilter: (value, record) => record && record.title === value,
+      render: (text, record, index) => (
+        <TodosItem
+          item={record}
+          index={index}
+          patchTodos={state.patchTodos}
+          deleteTodos={state.deleteTodos}
+          patchTodosRequest={actions.patchTodosRequest}
+          deleteTodosRequest={actions.deleteTodosRequest}
+        />
+      ),
+      filterIcon: (
+        <AddTodos
+          postTodos={state.postTodos}
+          postTodosRequest={actions.postTodosRequest}
+        />
+      ),
+    },
+  ];
+
+  const loading = state.getTodos.fetching;
+  const otherLoading =
+    state.patchTodos.fetching ||
+    state.deleteTodos.fetching ||
+    state.postTodos.fetching;
 
   useEffect(() => {
     actions.getUsersRequest();
@@ -33,7 +83,7 @@ export default function MainScreen() {
 
   useEffect(() => {
     if (state.getTodos.payload) {
-      setSelectedUser(JSON.parse(localStorage.getItem('user')));
+      setSelectedUser(user);
       setFilteredTodos(state.todoList);
     }
   }, [state.getTodos.payload]);
@@ -45,6 +95,12 @@ export default function MainScreen() {
   useEffect(() => {
     onFilteredTodos();
   }, [searchText]);
+
+  useEffect(() => {
+    if (state.patchTodos.payload) {
+      setSelectedTodoIndex(null);
+    }
+  }, [state.patchTodos.payload]);
 
   function onSelectUser(index) {
     setSelectedUserIndex(index);
@@ -66,78 +122,56 @@ export default function MainScreen() {
     setSelectedUser(null);
   }
 
+  function onChangeCompleted(item, index) {
+    const data = { ...item, completed: !item.completed };
+    setSelectedTodoIndex(index);
+    actions.patchTodosRequest(data);
+  }
+
   return (
     <Layout className="layout">
       <Header className="headerContainer">
         <div className="content flexRow">
-          {!isMobile && (
-            <Typography.Text className="headerLeft">
-              {`Todos Mini App ${
-                selectedUser ? ` | ${selectedUser.name}` : ''
-              }`}
-            </Typography.Text>
-          )}
-          <div
-            style={{
-              right: !isMobile && 16,
-            }}
-            className="headerRight"
-          >
-            <Input
-              value={searchText}
-              placeholder="Search Todos..."
-              onChange={e => setSearchText(e.target.value)}
-              prefix={<SearchOutlined />}
-              allowClear
-              disabled={state.getTodos.fetching}
-            />
-            <UserOutlined
-              className="userIcon"
-              style={{
-                marginRight: !isMobile && 16,
-              }}
-              onClick={onChangeUser}
-            />
-          </div>
+          {!isMobile && <HeaderLeft user={selectedUser} />}
+          <HeaderRight
+            userOnClick={onChangeUser}
+            searchText={searchText}
+            fetching={state.getTodos.fetching}
+            setSearchText={setSearchText}
+            isMobile={isMobile}
+          />
         </div>
       </Header>
       <Layout className="layoutContent">
         <Content className="content">
-          <TodosTable
+          <Table
             dataSource={filteredTodos}
-            loading={state.getTodos.fetching}
-            otherLoading={
-              state.deleteTodos.fetching ||
-              state.postTodos.fetching ||
-              state.patchTodos.fetching
-            }
+            loading={{
+              indicator: !otherLoading ? <Spinner size="large" /> : <div />,
+              spinning: loading || otherLoading,
+            }}
+            columns={columns}
+            pagination={false}
+            useFixedHeader
+            rowKey={(record, index) => index.toString()}
+            bodyStyle={{
+              overflowY: 'scroll',
+              backgroundColor: 'white',
+              overflowX: 'hidden',
+              height: 'calc(100vh - 118px)',
+            }}
           />
         </Content>
       </Layout>
-      <Modal
-        centered
-        visible={!selectedUser}
-        footer={null}
-        closable={false}
-        maskStyle={{ backgroundColor: 'rgba(0,0,0, 0.8)' }}
-      >
-        <Typography.Title>Select User</Typography.Title>
-        <div className="userListContainer">
-          <UserList
-            dataSource={state.userList}
-            getUsers={state.getUsers}
-            getTodos={state.getTodos}
-            getUsersRequest={() => actions.getUsersRequest()}
-            renderItem={(item, index) => (
-              <UserItem
-                onClick={() => onSelectUser(index)}
-                item={item}
-                loading={selectedUserIndex === index && state.getTodos.fetching}
-              />
-            )}
-          />
-        </div>
-      </Modal>
+      <UserListModal
+        user={selectedUser}
+        dataSource={state.userList}
+        getTodos={state.getTodos}
+        getUsers={state.getUsers}
+        getUsersRequest={actions.getUsersRequest}
+        selectedUserIndex={selectedUserIndex}
+        onSelectUser={onSelectUser}
+      />
     </Layout>
   );
 }

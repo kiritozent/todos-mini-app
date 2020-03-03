@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserListModal render without crashing passed 1`] = `
+<Modal
+  centered={true}
+  closable={false}
+  confirmLoading={false}
+  footer={null}
+  maskStyle={
+    Object {
+      "backgroundColor": "rgba(0,0,0, 0.8)",
+    }
+  }
+  maskTransitionName="fade"
+  okType="primary"
+  transitionName="zoom"
+  visible={true}
+  width={520}
+>
+  <Title>
+    Select User
+  </Title>
+  <div
+    className="userListContainer"
+  >
+    <UserList
+      dataSource={Array []}
+      getTodos={
+        Object {
+          "error": false,
+          "fetching": false,
+          "payload": null,
+        }
+      }
+      getUsers={
+        Object {
+          "error": false,
+          "fetching": false,
+          "payload": null,
+        }
+      }
+      getUsersRequest={[Function]}
+      renderItem={[Function]}
+    />
+  </div>
+</Modal>
+`;

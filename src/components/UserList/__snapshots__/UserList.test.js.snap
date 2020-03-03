@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserList render without crashing passed 1`] = `
+<ConfigProvider
+  renderEmpty={false}
+>
+  <List
+    bordered={false}
+    dataSource={Array []}
+    loading={
+      Object {
+        "indicator": <div />,
+        "spinning": false,
+      }
+    }
+    pagination={false}
+    renderItem={[Function]}
+    split={true}
+  />
+</ConfigProvider>
+`;

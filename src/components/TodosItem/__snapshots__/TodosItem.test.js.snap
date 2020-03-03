@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodosItem render without crashing passed 1`] = `
+<div
+  className="TodosItemContainer"
+>
+  <div
+    className="TodosItem"
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
+  />
+  <ForwardRef(DeleteOutlined)
+    className="DeleteIcon"
+    onClick={[Function]}
+    role="button"
+  />
+</div>
+`;

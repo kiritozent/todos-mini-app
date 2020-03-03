@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddTodos render without crashing passed 1`] = `
+<FormItem
+  className="FormItem"
+  hasFeedback={false}
+  validateStatus="validating"
+>
+  <Input
+    disabled={false}
+    onChange={[Function]}
+    onKeyPress={[Function]}
+    placeholder="Add new todos"
+    prefix={<ForwardRef(FileAddOutlined) />}
+    type="text"
+  />
+</FormItem>
+`;

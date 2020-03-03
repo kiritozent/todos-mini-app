@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderRight render without crashing passed 1`] = `
+<div
+  className="headerRight"
+>
+  <Input
+    allowClear={true}
+    disabled={false}
+    onChange={[Function]}
+    placeholder="Search Todos..."
+    prefix={<ForwardRef(SearchOutlined) />}
+    type="text"
+    value=""
+  />
+  <ForwardRef(UserOutlined)
+    className="userIcon"
+    onClick={[Function]}
+    style={
+      Object {
+        "marginRight": 16,
+      }
+    }
+  />
+</div>
+`;

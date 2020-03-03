@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import UserItem from './UserItem';
+import UserListModal from './UserListModal';
 
-describe('UserItem', () => {
+describe('UserListModal', () => {
   it('render without crashing passed', () => {
-    const testCase = shallow(<UserItem />);
+    const testCase = shallow(<UserListModal />);
     expect(testCase).toMatchSnapshot();
   });
 });

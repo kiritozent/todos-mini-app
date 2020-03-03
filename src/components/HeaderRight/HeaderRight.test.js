@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import UserItem from './UserItem';
+import HeaderRight from './HeaderRight';
 
-describe('UserItem', () => {
+describe('HeaderRight', () => {
   it('render without crashing passed', () => {
-    const testCase = shallow(<UserItem />);
+    const testCase = shallow(<HeaderRight />);
     expect(testCase).toMatchSnapshot();
   });
 });

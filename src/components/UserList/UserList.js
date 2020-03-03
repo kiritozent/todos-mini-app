@@ -26,7 +26,7 @@ const UserList = props => {
       <List
         dataSource={dataSource}
         loading={{
-          indicator: <Spinner size="large" />,
+          indicator: getUsers.fetching ? <Spinner size="large" /> : <div />,
           spinning: getUsers.fetching || getTodos.fetching,
         }}
         renderItem={renderItem}

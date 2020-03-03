@@ -121,7 +121,11 @@ export default function MainScreen() {
             getTodos={state.getTodos}
             getUsersRequest={() => actions.getUsersRequest()}
             renderItem={(item, index) => (
-              <UserItem onClick={() => onSelectUser(index)} item={item} />
+              <UserItem
+                onClick={() => onSelectUser(index)}
+                item={item}
+                loading={selectedUserIndex === index && state.getTodos.fetching}
+              />
             )}
           />
         </div>

@@ -11,6 +11,7 @@ module.exports = {
     'comma-dangle': 0,
     semi: 0,
     'react/forbid-prop-types': 0,
+    'react/jsx-curly-newline': 0,
     'prettier/prettier': 'error',
     'no-undef': 0,
     'global-require': 0,

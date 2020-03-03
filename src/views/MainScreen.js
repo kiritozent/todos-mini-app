@@ -39,6 +39,10 @@ export default function MainScreen() {
   }, [state.getTodos.payload]);
 
   useEffect(() => {
+    setFilteredTodos(state.todoList);
+  }, [state.todoList]);
+
+  useEffect(() => {
     onFilteredTodos();
   }, [searchText]);
 
@@ -90,7 +94,6 @@ export default function MainScreen() {
             <UserOutlined
               className="userIcon"
               style={{
-                marginLeft: 16,
                 marginRight: !isMobile && 16,
               }}
               onClick={onChangeUser}
@@ -103,6 +106,11 @@ export default function MainScreen() {
           <TodosTable
             dataSource={filteredTodos}
             loading={state.getTodos.fetching}
+            otherLoading={
+              state.deleteTodos.fetching ||
+              state.postTodos.fetching ||
+              state.patchTodos.fetching
+            }
           />
         </Content>
       </Layout>

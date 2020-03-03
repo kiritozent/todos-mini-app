@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Checkbox } from 'antd';
 import Spinner from '../Spinner/Spinner';
@@ -10,22 +10,29 @@ import './TodosTable.css';
 const { Column } = Table;
 
 function TodosTable(props) {
-  const { actions } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
+  const [selectedTodoIndex, setSelectedTodoIndex] = useState(null);
 
-  const { dataSource, loading } = props;
+  const { dataSource, loading, otherLoading } = props;
 
-  const onChangeCompleted = item => {
+  const onChangeCompleted = (item, index) => {
     const data = { ...item, completed: !item.completed };
-
+    setSelectedTodoIndex(index);
     actions.patchTodosRequest(data);
   };
+
+  useEffect(() => {
+    if (state.patchTodos.payload) {
+      setSelectedTodoIndex(null);
+    }
+  }, [state.patchTodos.payload]);
 
   return (
     <Table
       dataSource={dataSource}
       loading={{
-        indicator: <Spinner size="large" />,
-        spinning: loading,
+        indicator: !otherLoading ? <Spinner size="large" /> : <div />,
+        spinning: loading || otherLoading,
       }}
       pagination={false}
       useFixedHeader
@@ -52,12 +59,16 @@ function TodosTable(props) {
         ]}
         width={38}
         onFilter={(value, record) => record.completed === value}
-        render={(text, record) => (
-          <Checkbox
-            checked={record.completed}
-            onClick={() => onChangeCompleted(record)}
-          />
-        )}
+        render={(text, record, index) =>
+          selectedTodoIndex !== index ? (
+            <Checkbox
+              checked={record.completed}
+              onClick={() => onChangeCompleted(record, index)}
+            />
+          ) : (
+            <Spinner size="small" />
+          )
+        }
         title=""
         align="center"
       />
@@ -71,7 +82,6 @@ function TodosTable(props) {
             value: true,
           },
         ]}
-        filter
         dataIndex="title"
         key="title"
         render={(text, record, index) => (

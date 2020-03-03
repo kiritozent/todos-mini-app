@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List, ConfigProvider, Button } from 'antd';
 import Spinner from '../Spinner/Spinner';
+import './UserList.css';
 
 const UserList = props => {
   const { dataSource, renderItem, getUsers, getTodos, getUsersRequest } = props;
 
   function renderErrorEmpty() {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div className="ErrorContainer">
         <Button
           type="primary"
           onClick={getUsersRequest}

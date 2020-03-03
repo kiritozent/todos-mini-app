@@ -10,23 +10,14 @@ function UserItem(props) {
   const { item, onClick, loading } = props;
 
   return (
-    <List.Item className="UserItem" onClick={onClick}>
-      <div
-        style={{
-          flexDirection: 'row',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+    <List.Item className="UserItemContainer" onClick={onClick}>
+      <div className="UserItem">
         <Avatar size="large" style={{ backgroundColor: avatarColor }}>
           <Typography.Text className="UserAvatarText">
             {item.name[0].toUpperCase()}
           </Typography.Text>
         </Avatar>
-        <div
-          style={{ flexDirection: 'column', display: 'flex', marginLeft: 16 }}
-        >
+        <div className="UserItemBody">
           <Typography.Text className="UserNameText">
             {item.name}
           </Typography.Text>

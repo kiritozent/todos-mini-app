@@ -1,8 +1,21 @@
 .UserItem {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UserItemContainer {
   background-color: #fff;
   cursor: pointer;
   transition: 0.3s;
   padding: 16px;
+}
+
+.UserItemBody {
+  flex-direction: column;
+  display: flex;
+  margin-left: 16px;
 }
 
 .UserNameText {

@@ -72,7 +72,7 @@ const TodosItem = props => {
   if (onEdit)
     return (
       <Form.Item
-        style={{ padding: 0, margin: 0 }}
+        className="FormItem"
         validateStatus="validating"
         hasFeedback={state.patchTodos.fetching}
       >
@@ -104,7 +104,7 @@ const TodosItem = props => {
         {title}
       </div>
       {deleteLoading ? (
-        <Spinner />
+        <Spinner size="small" />
       ) : (
         <DeleteOutlined
           className="DeleteIcon"

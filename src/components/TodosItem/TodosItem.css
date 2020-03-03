@@ -15,6 +15,11 @@
   flex: 1;
 }
 
+.FormItem {
+  padding: 0px;
+  margin: 0px;
+}
+
 .DeleteIcon {
   color: tomato;
   font-size: 16px;

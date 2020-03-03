@@ -97,7 +97,7 @@ export default function MainScreen() {
   }, [searchText]);
 
   useEffect(() => {
-    if (state.patchTodos.payload) {
+    if (state.patchTodos.payload && state.patchTodos.payload.data) {
       setSelectedTodoIndex(null);
     }
   }, [state.patchTodos.payload]);
@@ -127,6 +127,8 @@ export default function MainScreen() {
     setSelectedTodoIndex(index);
     actions.patchTodosRequest(data);
   }
+
+  console.log({ selectedTodoIndex });
 
   return (
     <Layout className="layout">
